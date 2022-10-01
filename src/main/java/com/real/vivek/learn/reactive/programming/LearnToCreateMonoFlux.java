@@ -23,11 +23,20 @@ public class LearnToCreateMonoFlux {
 		//8.	The Subscriber can at any point of time make a cancel request on the Subscription object so that the Subscriber is not overwhelmed with data
 		return Flux.fromIterable(List.of("lenord", "lisa")).log();
 	}
-
+	
 	public static Mono<String> namesMono() {
 		// Mono is a reactive type which can contain 0 or 1 element
 		// The control flow is the same for Mono as well as Flux Publishers
 		return Mono.just("vivek").log();
+	}
+	
+	public static Flux<String> namesFlux_filter() {
+		return Flux.fromIterable(List.of("lenord", "lisa")).filter(name->name.length()>4).log();
+	}
+	
+	public static Mono<String> namesMono_map() {
+		//As we have used the log before using the map function we see the onNext call which the Publisher makes on the Subscriber has param value "vivek" in small case
+		return Mono.just("vivek").log().map(name->name.toUpperCase());
 	}
 	
 	
@@ -35,7 +44,13 @@ public class LearnToCreateMonoFlux {
 		//This is the Subscriber to which we have provided consumer
 		//If we don't subscribe the stream will not be triggered and we will have only Flux object
 		namesFlux().subscribe(name->System.out.println(name));
+		System.out.println("======================================");
 		namesMono().subscribe(name->System.out.println(name));
+		System.out.println("======================================");
+		namesFlux_filter().subscribe(name->System.out.println(name));
+		System.out.println("======================================");
+		namesMono_map().subscribe(name->System.out.println(name));
+		System.out.println("======================================");
 	}
 
 }
