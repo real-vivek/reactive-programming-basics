@@ -1,0 +1,21 @@
+plugins {
+	id 'java'
+}
+
+group = 'com.real.vivek'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.4.22'
+	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.1'
+	testImplementation 'io.projectreactor:reactor-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
