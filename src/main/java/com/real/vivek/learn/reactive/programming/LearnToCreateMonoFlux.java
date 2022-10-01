@@ -3,6 +3,7 @@ package com.real.vivek.learn.reactive.programming;
 import java.util.List;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class LearnToCreateMonoFlux {
 
@@ -23,10 +24,18 @@ public class LearnToCreateMonoFlux {
 		return Flux.fromIterable(List.of("lenord", "lisa")).log();
 	}
 
+	public static Mono<String> namesMono() {
+		// Mono is a reactive type which can contain 0 or 1 element
+		// The control flow is the same for Mono as well as Flux Publishers
+		return Mono.just("vivek").log();
+	}
+	
+	
 	public static void main(String[] args) {
 		//This is the Subscriber to which we have provided consumer
 		//If we don't subscribe the stream will not be triggered and we will have only Flux object
 		namesFlux().subscribe(name->System.out.println(name));
+		namesMono().subscribe(name->System.out.println(name));
 	}
 
 }
