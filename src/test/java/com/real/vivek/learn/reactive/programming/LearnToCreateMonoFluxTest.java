@@ -1,7 +1,10 @@
 package com.real.vivek.learn.reactive.programming;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 
@@ -60,6 +63,22 @@ class LearnToCreateMonoFluxTest {
     	Flux<String> stringFlux = LearnToCreateMonoFlux.namesFlux_concat_map();
     	StepVerifier.create(stringFlux).
     	expectNextCount(10).
+    	verifyComplete();
+    }
+    
+    @Test
+    void namesMono_async_flat_map() {
+    	Mono<List<String>> namesMono_async_flat_map = LearnToCreateMonoFlux.namesMono_async_flat_map();
+    	StepVerifier.create(namesMono_async_flat_map).
+    	expectNext(List.of("l","i","s","a")).
+    	verifyComplete();
+    }
+    
+    @Test
+    void namesMono_async_flat_map_many() {
+    	Flux<String> namesMono_async_flat_map = LearnToCreateMonoFlux.namesMono_async_flat_map_many();
+    	StepVerifier.create(namesMono_async_flat_map).
+    	expectNext("l","i","s","a").
     	verifyComplete();
     }
 }

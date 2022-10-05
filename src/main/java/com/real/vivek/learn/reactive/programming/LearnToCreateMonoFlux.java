@@ -65,6 +65,19 @@ public class LearnToCreateMonoFlux {
 		return Flux.fromIterable(List.of("lenord","lisa")).concatMap(name->async_splitString(name)).log();
 	}
 	
+	public static Mono<List<String>> namesMono_async_flat_map() {
+		return Mono.just("lisa").flatMap(name->async_splitString_mono(name)).log();
+	}
+	
+	public static Flux<String> namesMono_async_flat_map_many() {
+		return Mono.just("lisa").flatMapMany(name->async_splitString(name)).log();
+	}
+	
+	public static Mono<List<String>> async_splitString_mono(String name) {
+		var listOfNames=List.of(name.split(""));
+		return Mono.just(listOfNames).log();
+	}
+	
 	// The elements will be emitted after 1 sec
 	public static Flux<String> async_splitString(String name) {
 		return Flux.fromArray(name.split("")).delayElements(Duration.ofMillis(1000));
