@@ -18,15 +18,15 @@ class LearnToCreateMonoFluxTest {
 
     @Test
     void namesMono() {
-    	var stringFlux = LearnToCreateMonoFlux.namesMono();
+    	var stringMono = LearnToCreateMonoFlux.namesMono();
     	// Here we assert the count of values that we get is 1 and then we get the completion signal
-         StepVerifier.create(stringFlux).expectNextCount(1).verifyComplete();
+         StepVerifier.create(stringMono).expectNextCount(1).verifyComplete();
     }
     
     @Test
     void namesMono_map() {
-    	var stringFlux = LearnToCreateMonoFlux.namesMono_map();
-         StepVerifier.create(stringFlux).expectNext("VIVEK").verifyComplete();
+    	var stringMono = LearnToCreateMonoFlux.namesMono_map();
+         StepVerifier.create(stringMono).expectNext("VIVEK").verifyComplete();
     }
     
     @Test
@@ -34,6 +34,14 @@ class LearnToCreateMonoFluxTest {
         Flux<String> stringFlux = LearnToCreateMonoFlux.namesFlux_filter();
         StepVerifier.create(stringFlux).
         			expectNext("lenord").
+        			verifyComplete();
+    }
+    
+    @Test
+    void namesFlux_flat_map() {
+        Flux<String> stringFlux = LearnToCreateMonoFlux.namesFlux_flat_map();
+        StepVerifier.create(stringFlux).
+        			expectNext("l","i","s","a").
         			verifyComplete();
     }
 }

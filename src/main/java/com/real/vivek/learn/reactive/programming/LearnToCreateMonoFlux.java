@@ -39,7 +39,15 @@ public class LearnToCreateMonoFlux {
 		return Mono.just("vivek").log().map(name->name.toUpperCase());
 	}
 	
+	// Flat map gets the flux and flattens the values just like we get it from a flux
+	public static Flux<String> namesFlux_flat_map() {
+		return Flux.fromIterable(List.of("lisa")).flatMap(name->splitString(name));
+	}
 	
+	public static Flux<String> splitString(String name) {
+		return Flux.fromArray(name.split(""));
+	}
+
 	public static void main(String[] args) {
 		//This is the Subscriber to which we have provided consumer
 		//If we don't subscribe the stream will not be triggered and we will have only Flux object
@@ -50,6 +58,8 @@ public class LearnToCreateMonoFlux {
 		namesFlux_filter().subscribe(name->System.out.println(name));
 		System.out.println("======================================");
 		namesMono_map().subscribe(name->System.out.println(name));
+		System.out.println("======================================");
+		namesFlux_flat_map().subscribe(name->System.out.println(name));
 		System.out.println("======================================");
 	}
 
