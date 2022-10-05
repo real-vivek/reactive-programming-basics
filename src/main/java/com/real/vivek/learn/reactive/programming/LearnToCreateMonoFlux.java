@@ -2,12 +2,16 @@ package com.real.vivek.learn.reactive.programming;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Function;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class LearnToCreateMonoFlux {
 
+	// Extracting logic into transform function
+	static Function<Flux<String>, Flux<String>> transformFunction = names-> names.filter(name->name.length()>4);
+	
 	public static Flux<String> namesFlux() {
 		// Flux represents 0 or N elements
 		// Flux.fromIterable produces list of given string as stream
@@ -53,6 +57,10 @@ public class LearnToCreateMonoFlux {
 	// Flux takes elements(more than 1 element) assigns them a delay of 1 second, while subscribing, the flatMap gets the elements in any order
 	public static Flux<String> namesFlux_async_flat_map() {
 		return Flux.fromIterable(List.of("lenord","lisa")).flatMap(name->async_splitString(name)).log();
+	}
+	
+	public static Flux<String> namesFlux_transform() {
+		return Flux.fromIterable(List.of("lenord","lisa")).transform(transformFunction);
 	}
 	
 	public static Flux<String> splitString(String name) {

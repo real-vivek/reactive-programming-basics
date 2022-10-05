@@ -81,4 +81,12 @@ class LearnToCreateMonoFluxTest {
     	expectNext("l","i","s","a").
     	verifyComplete();
     }
+    
+    @Test
+    void namesFlux_transform() {
+    	Flux<String> namesFix_transform = LearnToCreateMonoFlux.namesFlux_transform();
+    	StepVerifier.create(namesFix_transform).
+    	expectNext("lenord").
+    	verifyComplete();
+    }
 }
