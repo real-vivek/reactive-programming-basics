@@ -44,11 +44,22 @@ class LearnToCreateMonoFluxTest {
         			expectNext("l","i","s","a").
         			verifyComplete();
     }
+    
+    //Compare the timings between flatMap and concatMap operations 
+    //The concatMap operations will require more time as order of elements is preserved
     @Test
     void namesFlux_async_flat_map() {
     	Flux<String> stringFlux = LearnToCreateMonoFlux.namesFlux_async_flat_map();
     	StepVerifier.create(stringFlux).
-    	expectNextCount(9).
+    	expectNextCount(10).
+    	verifyComplete();
+    }
+    
+    @Test
+    void namesFlux_concat_map() {
+    	Flux<String> stringFlux = LearnToCreateMonoFlux.namesFlux_concat_map();
+    	StepVerifier.create(stringFlux).
+    	expectNextCount(10).
     	verifyComplete();
     }
 }

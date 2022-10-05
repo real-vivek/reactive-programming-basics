@@ -2,8 +2,6 @@ package com.real.vivek.learn.reactive.programming;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Random;
-import java.util.SplittableRandom;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -50,7 +48,9 @@ public class LearnToCreateMonoFlux {
 	// Flat map gets the flux and flattens the values just like we get it from a flux
 	// The flatMap waits for all the results and then sends the result 
 	// The flatMap does more than just 1 to N transformation, it subscribes to Flux/Mono thats part of transformation and then flattens it 
-	// Thus flatMap is used with Transformatins that returns Publisherand are used for async transformation
+	// Thus flatMap is used with Transformations that returns Publisher and are used for async transformation
+	// How flatMap's subscription will work internally:
+	// Flux takes elements(more than 1 element) assigns them a delay of 1 second, while subscribing, the flatMap gets the elements in any order
 	public static Flux<String> namesFlux_async_flat_map() {
 		return Flux.fromIterable(List.of("lenord","lisa")).flatMap(name->async_splitString(name)).log();
 	}
@@ -59,10 +59,15 @@ public class LearnToCreateMonoFlux {
 		return Flux.fromArray(name.split(""));
 	}
 	
-	// The elements will be emitted after some random delay.
-	// The delay range is from 1 to 1000 milliseconds
+	// How concatMap's subscription will work internally:
+	// Flux takes one element at a time assigns it a delay of 1 second, while subscribing, the flatMap gets the elements in the order given 
+	public static Flux<String> namesFlux_concat_map() {
+		return Flux.fromIterable(List.of("lenord","lisa")).concatMap(name->async_splitString(name)).log();
+	}
+	
+	// The elements will be emitted after 1 sec
 	public static Flux<String> async_splitString(String name) {
-		return Flux.fromArray(name.split("")).delayElements(Duration.ofMillis(new SplittableRandom().nextInt(1,1000)));
+		return Flux.fromArray(name.split("")).delayElements(Duration.ofMillis(1000));
 	}
 
 	public static void main(String[] args) {
