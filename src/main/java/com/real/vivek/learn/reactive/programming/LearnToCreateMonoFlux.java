@@ -1,6 +1,9 @@
 package com.real.vivek.learn.reactive.programming;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Random;
+import java.util.SplittableRandom;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -44,8 +47,22 @@ public class LearnToCreateMonoFlux {
 		return Flux.fromIterable(List.of("lisa")).flatMap(name->splitString(name));
 	}
 	
+	// Flat map gets the flux and flattens the values just like we get it from a flux
+	// The flatMap waits for all the results and then sends the result 
+	// The flatMap does more than just 1 to N transformation, it subscribes to Flux/Mono thats part of transformation and then flattens it 
+	// Thus flatMap is used with Transformatins that returns Publisherand are used for async transformation
+	public static Flux<String> namesFlux_async_flat_map() {
+		return Flux.fromIterable(List.of("lenord","lisa")).flatMap(name->async_splitString(name)).log();
+	}
+	
 	public static Flux<String> splitString(String name) {
 		return Flux.fromArray(name.split(""));
+	}
+	
+	// The elements will be emitted after some random delay.
+	// The delay range is from 1 to 1000 milliseconds
+	public static Flux<String> async_splitString(String name) {
+		return Flux.fromArray(name.split("")).delayElements(Duration.ofMillis(new SplittableRandom().nextInt(1,1000)));
 	}
 
 	public static void main(String[] args) {

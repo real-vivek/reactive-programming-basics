@@ -44,4 +44,11 @@ class LearnToCreateMonoFluxTest {
         			expectNext("l","i","s","a").
         			verifyComplete();
     }
+    @Test
+    void namesFlux_async_flat_map() {
+    	Flux<String> stringFlux = LearnToCreateMonoFlux.namesFlux_async_flat_map();
+    	StepVerifier.create(stringFlux).
+    	expectNextCount(9).
+    	verifyComplete();
+    }
 }
